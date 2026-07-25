@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">➕ Add Firewall Rule</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">Rule Name</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           placeholder="Example: Block SSH"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Action</label>
+
+                    <select name="action" class="form-select">
+
+                        <option value="ALLOW">ALLOW</option>
+
+                        <option value="BLOCK">BLOCK</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Protocol</label>
+
+                    <select name="protocol" class="form-select">
+
+                        <option value="TCP">TCP</option>
+
+                        <option value="UDP">UDP</option>
+
+                        <option value="ICMP">ICMP</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Destination Port</label>
+
+                    <input type="number"
+                           name="destination_port"
+                           class="form-control"
+                           placeholder="22"
+                           required>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Priority</label>
+
+                    <input type="number"
+                           name="priority"
+                           class="form-control"
+                           value="100"
+                           required>
+
+                </div>
+
+                <button class="btn btn-success">
+                    Save Rule
+                </button>
+
+                <a href="/rules" class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

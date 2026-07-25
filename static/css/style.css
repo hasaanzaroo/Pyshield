@@ -1,0 +1,46 @@
+body{
+    background:#eef2f7;
+}
+
+.card{
+    border:none;
+    border-radius:14px;
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.card-header{
+    font-weight:600;
+}
+
+.table{
+    vertical-align:middle;
+}
+
+.badge{
+    font-size:.85rem;
+}
+
+.navbar-brand{
+    font-size:1.3rem;
+}
+
+footer{
+    font-size:.9rem;
+}
+
+.btn{
+    border-radius:8px;
+}
+
+input,
+select{
+    border-radius:8px !important;
+}
+
+.table-hover tbody tr:hover{
+    background:#f8f9fa;
+}
+
+h2{
+    font-weight:700;
+}

@@ -2,129 +2,282 @@
 
 {% block content %}
 
-<div class="container-fluid mt-4">
+<div class="container-fluid">
 
-    <h2 class="mb-4">
-        🛡️ PyShield Firewall Dashboard
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>
+        <i class="bi bi-speedometer2"></i>
+        Dashboard
     </h2>
 
-    <div class="row">
+    <a href="{{ url_for('load_demo') }}"
+       class="btn btn-warning">
 
-        <div class="col-md-3 mb-3">
-            <div class="card text-bg-primary shadow">
+        <i class="bi bi-database-fill-add"></i>
+        Load Demo Data
+
+    </a>
+
+</div>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card text-white bg-primary">
+
                 <div class="card-body">
-                    <h5>Total Packets</h5>
-                    <h2>{{ total_packets }}</h2>
+
+                    <h6>Total Packets</h6>
+
+                    <h2 id="totalPackets">{{ total_packets }}</h2>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card text-bg-success shadow">
+        <div class="col-md-3">
+
+            <div class="card text-white bg-success">
+
                 <div class="card-body">
-                    <h5>Allowed</h5>
-                    <h2>{{ allowed_packets }}</h2>
+
+                    <h6>Allowed</h6>
+
+                    <h2 id="allowedPackets">{{ allowed_packets }}</h2>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card text-bg-danger shadow">
+        <div class="col-md-3">
+
+            <div class="card text-white bg-danger">
+
                 <div class="card-body">
-                    <h5>Blocked</h5>
-                    <h2>{{ blocked_packets }}</h2>
+
+                    <h6>Blocked</h6>
+
+                    <h2 id="blockedPackets">{{ blocked_packets }}</h2>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card text-bg-warning shadow">
+        <div class="col-md-3">
+
+            <div class="card text-white bg-dark">
+
                 <div class="card-body">
-                    <h5>TCP Packets</h5>
-                    <h2>{{ tcp_packets }}</h2>
+
+                    <h6>Active Rules</h6>
+
+                    <h2 id="activeRules">{{ active_rules }}</h2>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
 
-    <div class="card shadow mt-4">
+    <div class="row">
 
-        <div class="card-header bg-dark text-white">
-            Recent Packet Activity
+        <div class="col-lg-8">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    Recent Network Activity
+
+                </div>
+
+                <div class="card-body table-responsive">
+
+                    <table class="table table-striped">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Time</th>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Protocol</th>
+                                <th>Port</th>
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="packetTable">
+
+                        {% for packet in packets %}
+
+                            <tr>
+
+                                <td>{{ packet.timestamp }}</td>
+
+                                <td>{{ packet.source_ip }}</td>
+
+                                <td>{{ packet.destination_ip }}</td>
+
+                                <td>
+
+                                    <span class="badge bg-info">
+
+                                        {{ packet.protocol }}
+
+                                    </span>
+
+                                </td>
+
+                                <td>{{ packet.port }}</td>
+
+                                <td>
+
+                                {% if packet.decision=="ALLOW" %}
+
+                                    <span class="badge bg-success">
+
+                                        ALLOW
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+
+                                        BLOCK
+
+                                    </span>
+
+                                {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="card-body table-responsive">
+        <div class="col-lg-4">
 
-            <table class="table table-hover align-middle">
+            <div class="card">
 
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Source IP</th>
-                        <th>Destination IP</th>
-                        <th>Protocol</th>
-                        <th>Port</th>
-                        <th>Decision</th>
-                    </tr>
-                </thead>
+                <div class="card-header">
 
-                <tbody>
+                    Firewall Status
 
-                {% for packet in packets %}
+                </div>
 
-                    <tr>
+                <div class="card-body">
 
-                        <td>{{ packet.id }}</td>
+                    <table class="table">
 
-                        <td>{{ packet.source_ip }}</td>
+                        <tr>
 
-                        <td>{{ packet.destination_ip }}</td>
+                            <th>Status</th>
 
-                        <td>
-                            <span class="badge bg-info">
-                                {{ packet.protocol }}
-                            </span>
-                        </td>
-
-                        <td>{{ packet.port }}</td>
-
-                        <td>
-
-                            {% if packet.decision == "ALLOW" %}
+                            <td>
 
                                 <span class="badge bg-success">
-                                    ALLOW
+
+                                    Running
+
                                 </span>
 
-                            {% elif packet.decision == "BLOCK" %}
+                            </td>
 
-                                <span class="badge bg-danger">
-                                    BLOCK
-                                </span>
+                        </tr>
 
-                            {% else %}
+                        <tr>
 
-                                <span class="badge bg-secondary">
-                                    {{ packet.decision }}
-                                </span>
+                            <th>Database</th>
 
-                            {% endif %}
+                            <td>
 
-                        </td>
+                                Connected
 
-                    </tr>
+                            </td>
 
-                {% endfor %}
+                        </tr>
 
-                </tbody>
+                        <tr>
 
-            </table>
+                            <th>Monitoring</th>
+
+                            <td>
+
+                                Active
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Application</th>
+
+                            <td>
+
+                                PyShield v1.0
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+<script>
+
+async function refreshDashboard(){
+
+    const response = await fetch("/api/dashboard");
+
+    const data = await response.json();
+
+    document.getElementById("totalPackets").innerText = data.total_packets;
+
+    document.getElementById("allowedPackets").innerText = data.allowed_packets;
+
+    document.getElementById("blockedPackets").innerText = data.blocked_packets;
+
+    document.getElementById("activeRules").innerText = data.active_rules;
+
+}
+
+setInterval(refreshDashboard,2000);
+
+</script>
 
 {% endblock %}

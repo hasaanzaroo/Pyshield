@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        ⚙ PyShield Settings
+    </h2>
+
+    <div class="row">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    Firewall Configuration
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Default Policy
+
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="default_policy">
+
+                                <option value="ALLOW"
+                                {% if settings.default_policy=="ALLOW" %}selected{% endif %}>
+                                    ALLOW
+                                </option>
+
+                                <option value="BLOCK"
+                                {% if settings.default_policy=="BLOCK" %}selected{% endif %}>
+                                    BLOCK
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Capture Interface
+
+                            </label>
+
+                            <input
+                                class="form-control"
+                                name="capture_interface"
+                                value="{{ settings.capture_interface }}">
+
+                        </div>
+
+                        <button
+                            class="btn btn-success">
+
+                            💾 Save Settings
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-5">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    Firewall Status
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>Total Rules</th>
+
+                            <td>{{ total_rules }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Enabled Rules</th>
+
+                            <td>{{ enabled_rules }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Total Logs</th>
+
+                            <td>{{ total_logs }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Default Policy</th>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ settings.default_policy }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Interface</th>
+
+                            <td>
+
+                                {{ settings.capture_interface }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

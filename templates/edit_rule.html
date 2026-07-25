@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning text-dark">
+
+            <h3 class="mb-0">
+                ✏ Edit Firewall Rule
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Rule Name
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        value="{{ rule.name }}"
+                        required>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Action
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="action">
+
+                        <option value="ALLOW"
+                            {% if rule.action=="ALLOW" %}selected{% endif %}>
+                            ALLOW
+                        </option>
+
+                        <option value="BLOCK"
+                            {% if rule.action=="BLOCK" %}selected{% endif %}>
+                            BLOCK
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Protocol
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="protocol">
+
+                        <option value="ANY"
+                            {% if rule.protocol=="ANY" %}selected{% endif %}>
+                            ANY
+                        </option>
+
+                        <option value="TCP"
+                            {% if rule.protocol=="TCP" %}selected{% endif %}>
+                            TCP
+                        </option>
+
+                        <option value="UDP"
+                            {% if rule.protocol=="UDP" %}selected{% endif %}>
+                            UDP
+                        </option>
+
+                        <option value="ICMP"
+                            {% if rule.protocol=="ICMP" %}selected{% endif %}>
+                            ICMP
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Destination Port
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="destination_port"
+                        value="{{ rule.destination_port }}"
+                        min="1"
+                        max="65535"
+                        required>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Priority
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="priority"
+                        value="{{ rule.priority }}"
+                        required>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="{{ url_for('rules') }}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-warning">
+
+                        💾 Save Changes
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

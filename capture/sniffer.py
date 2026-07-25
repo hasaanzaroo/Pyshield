@@ -1,10 +1,14 @@
 from scapy.all import sniff
 
+from app import app
+
 from capture.parser import parse_packet
 from capture.packet_queue import packet_queue
 
 from firewall.engine import FirewallEngine
 from firewall.default_rules import load_default_rules
+
+from database.logger import log_packet
 
 
 engine = FirewallEngine()
@@ -18,6 +22,10 @@ def handle_packet(pkt):
 
     if parsed:
         decision, matched_rule = engine.evaluate(parsed)
+
+        # Save packet to database inside Flask app context
+        with app.app_context():
+            log_packet(parsed, decision, matched_rule)
 
         if not packet_queue.full():
             packet_queue.put(parsed)
@@ -37,7 +45,7 @@ def start_sniffer(interface=None):
     sniff(
         iface=interface,
         prn=handle_packet,
-        store=False
+        store=False,
     )
 
 

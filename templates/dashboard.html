@@ -2,19 +2,126 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container-fluid mt-4">
 
-    <h1 class="display-4">
-        🛡️ PyShield Firewall
-    </h1>
+    <h2 class="mb-4">
+        🛡️ PyShield Firewall Dashboard
+    </h2>
 
-    <p class="lead">
-        Software Firewall Simulator
-    </p>
+    <div class="row">
 
-    <div class="alert alert-success">
+        <div class="col-md-3 mb-3">
+            <div class="card text-bg-primary shadow">
+                <div class="card-body">
+                    <h5>Total Packets</h5>
+                    <h2>{{ total_packets }}</h2>
+                </div>
+            </div>
+        </div>
 
-        Flask is working successfully.
+        <div class="col-md-3 mb-3">
+            <div class="card text-bg-success shadow">
+                <div class="card-body">
+                    <h5>Allowed</h5>
+                    <h2>{{ allowed_packets }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-bg-danger shadow">
+                <div class="card-body">
+                    <h5>Blocked</h5>
+                    <h2>{{ blocked_packets }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-bg-warning shadow">
+                <div class="card-body">
+                    <h5>TCP Packets</h5>
+                    <h2>{{ tcp_packets }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header bg-dark text-white">
+            Recent Packet Activity
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Source IP</th>
+                        <th>Destination IP</th>
+                        <th>Protocol</th>
+                        <th>Port</th>
+                        <th>Decision</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for packet in packets %}
+
+                    <tr>
+
+                        <td>{{ packet.id }}</td>
+
+                        <td>{{ packet.source_ip }}</td>
+
+                        <td>{{ packet.destination_ip }}</td>
+
+                        <td>
+                            <span class="badge bg-info">
+                                {{ packet.protocol }}
+                            </span>
+                        </td>
+
+                        <td>{{ packet.port }}</td>
+
+                        <td>
+
+                            {% if packet.decision == "ALLOW" %}
+
+                                <span class="badge bg-success">
+                                    ALLOW
+                                </span>
+
+                            {% elif packet.decision == "BLOCK" %}
+
+                                <span class="badge bg-danger">
+                                    BLOCK
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+                                    {{ packet.decision }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

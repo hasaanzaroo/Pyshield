@@ -275,7 +275,7 @@ This project is licensed under the **MIT License**.
 
 # 👨‍💻 Author
 
-**Mohammad Kashif**
+**Hasaan Bin Shakeel**
 
 B.Tech Computer Science Engineering
 
